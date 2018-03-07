@@ -3,16 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: 胡星球的个人博客
 subtitle:
 description:
-author: John Doe
-language:
+author: 胡星球
+email: vucrr520@gmail.com
+language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://vucrr.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
