@@ -1,5 +1,5 @@
 ---
-title: "js"
+title: js敏感字查询
 ---
 
 ```js
