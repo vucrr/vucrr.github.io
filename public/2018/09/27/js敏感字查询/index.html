@@ -43,6 +43,8 @@
     
     <title>
         
+            js | 
+        
         胡星球的部落格
     </title>
 
@@ -230,14 +232,14 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="https://vucrr.github.io/2018/09/27/js敏感字查询/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="胡星球的部落格">
+    <meta property="og:title" content="js | 胡星球的部落格">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="">
     
 
     
-        <meta property="article:published_time" content="Thu Sep 27 2018 17:14:30 GMT+0800">
-        <meta property="article:modified_time" content="Thu Sep 27 2018 17:14:30 GMT+0800">
+        <meta property="article:published_time" content="Thu Sep 27 2018 17:28:39 GMT+0800">
+        <meta property="article:modified_time" content="Thu Sep 27 2018 17:30:55 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -258,9 +260,9 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "mainEntityOfPage": "https://vucrr.github.io/2018/09/27/js敏感字查询/index.html",
-    "headline": "",
-    "datePublished": "Thu Sep 27 2018 17:14:30 GMT+0800",
-    "dateModified": "Thu Sep 27 2018 17:14:30 GMT+0800",
+    "headline": "js",
+    "datePublished": "Thu Sep 27 2018 17:28:39 GMT+0800",
+    "dateModified": "Thu Sep 27 2018 17:30:55 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "胡星球",
@@ -367,7 +369,7 @@
         
     
             <p class="article-headline-p">
-                
+                js
             </p>
         </div>
 
@@ -418,7 +420,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=&url=https://vucrr.github.io/2018/09/27/js敏感字查询/index.html&pic=https://vucrr.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=js&url=https://vucrr.github.io/2018/09/27/js敏感字查询/index.html&pic=https://vucrr.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -427,7 +429,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=&url=https://vucrr.github.io/2018/09/27/js敏感字查询/index.html&via=胡星球" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=js&url=https://vucrr.github.io/2018/09/27/js敏感字查询/index.html&via=胡星球" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -470,155 +472,8 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;敏感字查询&lt;/title&gt;
-    &lt;script src=&quot;https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;lodash.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;badwords.js&quot;&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;input id=&quot;inputEmail&quot; class=&quot;form-control&quot; required autofocus&gt;
-    &lt;button class=&quot;btn btn-lg btn-primary btn-block&quot; type=&quot;button&quot; id=&quot;test2&quot;&gt;test&lt;/button&gt;
-    &lt;script&gt;
-        var node = null;
-        function translation(str) {
-            var c = [];
-            for (var i = 0; i &lt; str.length; i++) {
-                var ch = str[i];
-                var chHex = str.charCodeAt(i).toString(16);
-                chHex = _.parseInt(chHex, 16);
-                /*全角=&gt;半角*/
-                if (chHex &gt; 0xFF00 &amp;&amp; chHex &lt; 0xFF5F)
-                    chHex = (chHex - 0xFEE0);
-                /*大写=&gt;小写*/
-                if (chHex &gt; 0x40 &amp;&amp; chHex &lt; 0x5b)
-                    chHex = (chHex + 0x20);
-                /*繁体=&gt;简体*/
-                if (chHex &gt; 0x4E00 &amp;&amp; chHex &lt; 0x9FFF) {
-                    var index = traChn.indexOf(ch);
-                    if (index &gt; 0) {
-                        ch = simChn[index];
-                        chHex = simChn.charCodeAt(index).toString(16);
-                        chHex = _.parseInt(chHex, 16);
-                    }
-                    ;
-                }
-                c.push(String.fromCharCode(chHex));
-            }
-            ;
-            return c;
-        };
-        function isSkip(firstChar) {
-            if (firstChar &lt; &apos;0&apos;)
-                return true;
-            if (firstChar &gt; &apos;9&apos; &amp;&amp; firstChar &lt; &apos;A&apos;)
-                return true;
-            if (firstChar &gt; &apos;Z&apos; &amp;&amp; firstChar &lt; &apos;a&apos;)
-                return true;
-            if (firstChar &gt; &apos;z&apos; &amp;&amp; firstChar &lt; 128)
-                return true;
-            return false;
-        };
-        function find(src) {
-            if (_.isNull(node)) {
-                throw &apos;未初始化&apos;;
-            }
-            var result = [];
-            if (_.isEmpty(src)) {
-                return result;
-            };
-            var text = translation(src)
-                , start = 0;
-            while (start &lt; text.length) {
-                var length = 0
-                    , len = text.length - 1
-                    , firstChar = text[start + length]
-                    , curNode = {};
-                while (isSkip(firstChar) &amp;&amp; (start + length) &lt; len) {
-                    start++;
-                    firstChar = text[start + length];
-                }
-                while (!node[firstChar] &amp;&amp; start &lt; len) {
-                    start++;
-                    firstChar = text[start + length];
-                }
-                curNode = node;
-                while (typeof curNode[firstChar] !== &apos;undefined&apos;) {
-                    curNode = curNode[firstChar];
-                    length++;
-                    if ((start + length) &gt;= text.length) {
-                        break;
-                    }
-                    ;
-                    firstChar = text[start + length];
-                    while (isSkip(firstChar) &amp;&amp; !curNode.optEnd &amp;&amp; (start + length) &lt; len) {
-                        length++;
-                        firstChar = text[start + length];
-                    }
-                }
-                if (curNode.isEnd || curNode.optEnd) {
-                    result.push(src.substr(start, length));
-                    start += length - 1;
-                }
-                ;
-                start++;
-            }
-            return result;
-        }
-        function init(keywords) {
-            if (!_.isArray(keywords)) {
-                throw &apos;关键词列表不是数组&apos;;
-            }
-            if (node !== null) {
-                return;
-            }
-            node = {};
-            node.isEnd = false;
-            _.forEach(keywords, function (keyword) {
-                var chs = translation(keyword);
-                var ch = chs[0];
-                var chNext = &apos;&apos;;
-                if (typeof node[ch] === &apos;undefined&apos;) {
-                    node[ch] = {};
-                }
-                var curNode = node[ch];
-                if (chs.length == 1) {
-                    curNode.isEnd = true;
-                    curNode.optEnd = true;
-                } else {
-                    for (var i = 1; i &lt; chs.length; i++) {
-                        curNode.isEnd = false;
-                        chNext = chs[i];
-                        if (typeof curNode[chNext] === &apos;undefined&apos;) {
-                            curNode[chNext] = {};
-                        }
-                        ;
-                        if (i === chs.length - 1) {
-                            curNode[chNext].isEnd = true;
-                            curNode[chNext].optEnd = true;
-                        }
-                        ;
-                        curNode = curNode[chNext];
-                    }
-                    ;
-                }
-            })
-        }
-        //初始化库
-        init(badwords);
-        $(&quot;#test2&quot;).click(function () {
-            var testwords = $(&quot;#inputEmail&quot;).val();
-            console.log(testwords);
-            var testresult = find(testwords);
-            alert(testresult);
-        })
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">    &lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">        &lt;title&gt;敏感字查询&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">        &lt;script src="https:/</span><span class="regexp">/cdn.bootcss.com/</span>jquery/<span class="number">1.12</span><span class="number">.4</span>/jquery.min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">        &lt;script src="</span>lodash.min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">        &lt;script src="</span>badwords.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">    &lt;/head&gt;</span></span><br><span class="line"><span class="string">    &lt;body&gt;</span></span><br><span class="line"><span class="string">        &lt;input id="</span>inputEmail<span class="string">" class="</span>form-control<span class="string">" required autofocus&gt;</span></span><br><span class="line"><span class="string">        &lt;button class="</span>btn btn-lg btn-primary btn-block<span class="string">" type="</span>button<span class="string">" id="</span>test2<span class="string">"&gt;test&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;script&gt;</span></span><br><span class="line"><span class="string">            var node = null;</span></span><br><span class="line"><span class="string">            function translation(str) &#123;</span></span><br><span class="line"><span class="string">                var c = [];</span></span><br><span class="line"><span class="string">                for (var i = 0; i &lt; str.length; i++) &#123;</span></span><br><span class="line"><span class="string">                    var ch = str[i];</span></span><br><span class="line"><span class="string">                    var chHex = str.charCodeAt(i).toString(16);</span></span><br><span class="line"><span class="string">                    chHex = _.parseInt(chHex, 16);</span></span><br><span class="line"><span class="string">                    /*全角=&gt;半角*/</span></span><br><span class="line"><span class="string">                    if (chHex &gt; 0xFF00 &amp;&amp; chHex &lt; 0xFF5F)</span></span><br><span class="line"><span class="string">                        chHex = (chHex - 0xFEE0);</span></span><br><span class="line"><span class="string">                    /*大写=&gt;小写*/</span></span><br><span class="line"><span class="string">                    if (chHex &gt; 0x40 &amp;&amp; chHex &lt; 0x5b)</span></span><br><span class="line"><span class="string">                        chHex = (chHex + 0x20);</span></span><br><span class="line"><span class="string">                    /*繁体=&gt;简体*/</span></span><br><span class="line"><span class="string">                    if (chHex &gt; 0x4E00 &amp;&amp; chHex &lt; 0x9FFF) &#123;</span></span><br><span class="line"><span class="string">                        var index = traChn.indexOf(ch);</span></span><br><span class="line"><span class="string">                        if (index &gt; 0) &#123;</span></span><br><span class="line"><span class="string">                            ch = simChn[index];</span></span><br><span class="line"><span class="string">                            chHex = simChn.charCodeAt(index).toString(16);</span></span><br><span class="line"><span class="string">                            chHex = _.parseInt(chHex, 16);</span></span><br><span class="line"><span class="string">                        &#125;</span></span><br><span class="line"><span class="string">                        ;</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    c.push(String.fromCharCode(chHex));</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                ;</span></span><br><span class="line"><span class="string">                return c;</span></span><br><span class="line"><span class="string">            &#125;;</span></span><br><span class="line"><span class="string">            function isSkip(firstChar) &#123;</span></span><br><span class="line"><span class="string">                if (firstChar &lt; '0')</span></span><br><span class="line"><span class="string">                    return true;</span></span><br><span class="line"><span class="string">                if (firstChar &gt; '9' &amp;&amp; firstChar &lt; 'A')</span></span><br><span class="line"><span class="string">                    return true;</span></span><br><span class="line"><span class="string">                if (firstChar &gt; 'Z' &amp;&amp; firstChar &lt; 'a')</span></span><br><span class="line"><span class="string">                    return true;</span></span><br><span class="line"><span class="string">                if (firstChar &gt; 'z' &amp;&amp; firstChar &lt; 128)</span></span><br><span class="line"><span class="string">                    return true;</span></span><br><span class="line"><span class="string">                return false;</span></span><br><span class="line"><span class="string">            &#125;;</span></span><br><span class="line"><span class="string">            function find(src) &#123;</span></span><br><span class="line"><span class="string">                if (_.isNull(node)) &#123;</span></span><br><span class="line"><span class="string">                    throw '未初始化';</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                var result = [];</span></span><br><span class="line"><span class="string">                if (_.isEmpty(src)) &#123;</span></span><br><span class="line"><span class="string">                    return result;</span></span><br><span class="line"><span class="string">                &#125;;</span></span><br><span class="line"><span class="string">                var text = translation(src)</span></span><br><span class="line"><span class="string">                    , start = 0;</span></span><br><span class="line"><span class="string">                while (start &lt; text.length) &#123;</span></span><br><span class="line"><span class="string">                    var length = 0</span></span><br><span class="line"><span class="string">                        , len = text.length - 1</span></span><br><span class="line"><span class="string">                        , firstChar = text[start + length]</span></span><br><span class="line"><span class="string">                        , curNode = &#123;&#125;;</span></span><br><span class="line"><span class="string">                    while (isSkip(firstChar) &amp;&amp; (start + length) &lt; len) &#123;</span></span><br><span class="line"><span class="string">                        start++;</span></span><br><span class="line"><span class="string">                        firstChar = text[start + length];</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    while (!node[firstChar] &amp;&amp; start &lt; len) &#123;</span></span><br><span class="line"><span class="string">                        start++;</span></span><br><span class="line"><span class="string">                        firstChar = text[start + length];</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    curNode = node;</span></span><br><span class="line"><span class="string">                    while (typeof curNode[firstChar] !== 'undefined') &#123;</span></span><br><span class="line"><span class="string">                        curNode = curNode[firstChar];</span></span><br><span class="line"><span class="string">                        length++;</span></span><br><span class="line"><span class="string">                        if ((start + length) &gt;= text.length) &#123;</span></span><br><span class="line"><span class="string">                            break;</span></span><br><span class="line"><span class="string">                        &#125;</span></span><br><span class="line"><span class="string">                        ;</span></span><br><span class="line"><span class="string">                        firstChar = text[start + length];</span></span><br><span class="line"><span class="string">                        while (isSkip(firstChar) &amp;&amp; !curNode.optEnd &amp;&amp; (start + length) &lt; len) &#123;</span></span><br><span class="line"><span class="string">                            length++;</span></span><br><span class="line"><span class="string">                            firstChar = text[start + length];</span></span><br><span class="line"><span class="string">                        &#125;</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    if (curNode.isEnd || curNode.optEnd) &#123;</span></span><br><span class="line"><span class="string">                        result.push(src.substr(start, length));</span></span><br><span class="line"><span class="string">                        start += length - 1;</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    ;</span></span><br><span class="line"><span class="string">                    start++;</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                return result;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            function init(keywords) &#123;</span></span><br><span class="line"><span class="string">                if (!_.isArray(keywords)) &#123;</span></span><br><span class="line"><span class="string">                    throw '关键词列表不是数组';</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                if (node !== null) &#123;</span></span><br><span class="line"><span class="string">                    return;</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                node = &#123;&#125;;</span></span><br><span class="line"><span class="string">                node.isEnd = false;</span></span><br><span class="line"><span class="string">                _.forEach(keywords, function (keyword) &#123;</span></span><br><span class="line"><span class="string">                    var chs = translation(keyword);</span></span><br><span class="line"><span class="string">                    var ch = chs[0];</span></span><br><span class="line"><span class="string">                    var chNext = '';</span></span><br><span class="line"><span class="string">                    if (typeof node[ch] === 'undefined') &#123;</span></span><br><span class="line"><span class="string">                        node[ch] = &#123;&#125;;</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                    var curNode = node[ch];</span></span><br><span class="line"><span class="string">                    if (chs.length == 1) &#123;</span></span><br><span class="line"><span class="string">                        curNode.isEnd = true;</span></span><br><span class="line"><span class="string">                        curNode.optEnd = true;</span></span><br><span class="line"><span class="string">                    &#125; else &#123;</span></span><br><span class="line"><span class="string">                        for (var i = 1; i &lt; chs.length; i++) &#123;</span></span><br><span class="line"><span class="string">                            curNode.isEnd = false;</span></span><br><span class="line"><span class="string">                            chNext = chs[i];</span></span><br><span class="line"><span class="string">                            if (typeof curNode[chNext] === 'undefined') &#123;</span></span><br><span class="line"><span class="string">                                curNode[chNext] = &#123;&#125;;</span></span><br><span class="line"><span class="string">                            &#125;</span></span><br><span class="line"><span class="string">                            ;</span></span><br><span class="line"><span class="string">                            if (i === chs.length - 1) &#123;</span></span><br><span class="line"><span class="string">                                curNode[chNext].isEnd = true;</span></span><br><span class="line"><span class="string">                                curNode[chNext].optEnd = true;</span></span><br><span class="line"><span class="string">                            &#125;</span></span><br><span class="line"><span class="string">                            ;</span></span><br><span class="line"><span class="string">                            curNode = curNode[chNext];</span></span><br><span class="line"><span class="string">                        &#125;</span></span><br><span class="line"><span class="string">                        ;</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                &#125;)</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            //初始化库</span></span><br><span class="line"><span class="string">            init(badwords);</span></span><br><span class="line">            $("#test2").click(function () &#123;</span><br><span class="line">                <span class="keyword">var</span> testwords = $(<span class="string">"#inputEmail"</span>).val();</span><br><span class="line">                <span class="built_in">console</span>.log(testwords);</span><br><span class="line">                <span class="keyword">var</span> testresult = find(testwords);</span><br><span class="line">                alert(testresult);</span><br><span class="line">            &#125;)</span><br><span class="line">        &lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>body&gt;</span><br><span class="line">    &lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+
         
     
 
